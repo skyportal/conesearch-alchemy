@@ -4,13 +4,9 @@ from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
 from sqlalchemy.schema import Column, Index
 from sqlalchemy.sql import and_
 from sqlalchemy.types import Float
-from sqlalchemy import BigInteger
-
-import astropy.units as u
 
 from .math import sind, cosd
-from .util import default_and_onupdate as dfl, InheritTableArgs
-from .healpix import LEVEL, HPX
+from .util import InheritTableArgs
 
 __all__ = ('Point',)
 
@@ -25,11 +21,6 @@ class Point(InheritTableArgs):
 
     ra = Column(Float)
     dec = Column(Float)
-
-    nested = Column(
-        BigInteger, index=True,
-        doc=f'HEALPix nested index at nside=2**{LEVEL}',
-        **dfl(lambda ra, dec: int(HPX.lonlat_to_healpix(ra*u.deg, dec*u.deg))))
 
     @hybrid_property
     def cartesian(self):

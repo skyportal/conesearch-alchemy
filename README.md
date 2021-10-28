@@ -1,25 +1,19 @@
-# HEALPix Alchemy
+# Cone Search Alchemy
 
-The `healpix_alchemy` Python package extends [SQLAlchemy] will provide spatial
-indexing for astronomical sky coordinates, regions, and raster images (e.g.
-LIGO/Virgo and Fermi probability sky maps) in a relational database. It does
-not rely on any database extensions.
-
-This package is a work in progress. Initially, `healpix_alchemy` focuses on
-spatial indexing of point clouds while we work out the SQLAlchemy abstraction
-design. Once this is mature, we will incorporate the raster indexing strategies
-from https://github.com/growth-astro/healpix-intersection-example.
+The `conesearch_alchemy` Python package enhances [SQLAlchemy] to provide fast,
+indexed cone searches on astronomical catalogs using a PostgreSQL database. It
+does not rely on any database extensions.
 
 ## Installation
 
-You can install `healpix_alchemy` the Python Package Index:
+You can install `conesearch_alchemy` the Python Package Index:
 
-    $ pip install healpix-alchemy
+    $ pip install conesearch-alchemy
 
 ## Usage
 
 ```python
-from healpix_alchemy.point import Point
+from conesearch_alchemy.point import Point
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()

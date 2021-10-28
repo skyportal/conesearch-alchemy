@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "healpix-alchemy"
-version = "0.2.1"
-description = "SQLAlchemy extensions for HEALPix spatially indexed astronomy data"
+name = "conesearch-alchemy"
+version = "0.1.0"
+description = "SQLAlchemy extension for indexed cone searches in astronomical catalogs"
 readme = "README.md"
 authors = ["Leo Singer <leo.singer@ligo.org>"]
 license = "BSD-3-clause"
-repository = "https://github.com/skyportal/healpix-alchemy"
+repository = "https://github.com/skyportal/conesearch-alchemy"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Topic :: Database",
@@ -14,12 +14,10 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
-astropy = "*"
-astropy_healpix = "*"
-mocpy = "*"
 sqlalchemy = "*"
 
 [tool.poetry.dev-dependencies]
+astropy = "*"
 numpy = "*"
 psycopg2-binary = "*"
 pytest = "*"
