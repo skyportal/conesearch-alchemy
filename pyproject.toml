@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "conesearch-alchemy"
-version = "0.1.0"
+version = "1.0.0"
 description = "SQLAlchemy extension for indexed cone searches in astronomical catalogs"
 readme = "README.md"
 authors = ["Leo Singer <leo.singer@ligo.org>"]
 license = "BSD-3-clause"
 repository = "https://github.com/skyportal/conesearch-alchemy"
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Topic :: Database",
     "Topic :: Scientific/Engineering :: Astronomy"
 ]
