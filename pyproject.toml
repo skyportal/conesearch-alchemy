@@ -16,7 +16,7 @@ classifiers = [
 python = "^3.6"
 sqlalchemy = "*"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 astropy = "*"
 numpy = "*"
 psycopg2-binary = "*"
@@ -26,5 +26,5 @@ pytest-postgresql = "*"
 scipy = "*"
 
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["poetry-core>=1.2.0"]
+build-backend = "poetry.core.masonry.api"
