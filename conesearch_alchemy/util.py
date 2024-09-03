@@ -29,6 +29,7 @@ class InheritTableArgs:
                 return *args, kwargs
 
     """
+
     @declared_attr
     def __table_args__(cls):
         try:
@@ -37,9 +38,9 @@ class InheritTableArgs:
             table_args = ()
 
         if isinstance(table_args, typing.Mapping):
-            return table_args,
+            return (table_args,)
         elif not isinstance(table_args, typing.Sequence):
-            raise ValueError('table_args must be a mapping or sequence')
+            raise ValueError("table_args must be a mapping or sequence")
         elif not table_args or not isinstance(table_args[-1], typing.Mapping):
             return (*table_args, {})
         else:

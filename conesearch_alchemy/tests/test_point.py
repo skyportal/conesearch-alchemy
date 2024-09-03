@@ -1,26 +1,25 @@
 import itertools
 
-from astropy.coordinates import SkyCoord
-from astropy import units as u
-from astropy.utils.misc import NumpyRNGContext
 import numpy as np
+import pytest
+from astropy import units as u
+from astropy.coordinates import SkyCoord
+from astropy.utils.misc import NumpyRNGContext
 from sqlalchemy import Column, Integer
 from sqlalchemy.orm import aliased, declarative_base
-import pytest
 
 from .. import Point
-
 
 Base = declarative_base()
 
 
 class Catalog1(Point, Base):
-    __tablename__ = 'catalog1'
+    __tablename__ = "catalog1"
     id = Column(Integer, primary_key=True)
 
 
 class Catalog2(Point, Base):
-    __tablename__ = 'catalog2'
+    __tablename__ = "catalog2"
     id = Column(Integer, primary_key=True)
 
 
@@ -75,21 +74,20 @@ def test_cross_join(benchmark, session, point_clouds):
     ras, decs = point_clouds
 
     def do_query():
-        return session.query(
-            Catalog1.id, Catalog2.id
-        ).join(
-            Catalog2,
-            Catalog1.within(Catalog2, SEPARATION)
-        ).order_by(
-            Catalog1.id, Catalog2.id
-        ).all()
+        return (
+            session.query(Catalog1.id, Catalog2.id)
+            .join(Catalog2, Catalog1.within(Catalog2, SEPARATION))
+            .order_by(Catalog1.id, Catalog2.id)
+            .all()
+        )
 
     result = benchmark(do_query)
     matches = np.asarray(result).reshape(-1, 2)
 
     # Find all matches using Astropy
-    coords1, coords2 = (SkyCoord(ras_, decs_, unit=(u.deg, u.deg))
-                        for ras_, decs_ in zip(ras, decs))
+    coords1, coords2 = (
+        SkyCoord(ras_, decs_, unit=(u.deg, u.deg)) for ras_, decs_ in zip(ras, decs)
+    )
     expected_matches = match_sky(coords1, coords2, SEPARATION * u.deg)
 
     # Compare SQLAlchemy result to Astropy
@@ -102,14 +100,12 @@ def test_self_join(benchmark, session, point_clouds):
     def do_query():
         table1 = aliased(Catalog1)
         table2 = aliased(Catalog1)
-        return session.query(
-            table1.id, table2.id
-        ).join(
-            table2,
-            table1.within(table2, SEPARATION)
-        ).order_by(
-            table1.id, table2.id
-        ).all()
+        return (
+            session.query(table1.id, table2.id)
+            .join(table2, table1.within(table2, SEPARATION))
+            .order_by(table1.id, table2.id)
+            .all()
+        )
 
     result = benchmark(do_query)
     matches = np.asarray(result).reshape(-1, 2)
@@ -127,13 +123,12 @@ def test_cone_search(benchmark, session, point_clouds):
     target = session.get(Catalog1, 0)
 
     def do_query():
-        return session.query(
-            Catalog1.id
-        ).filter(
-            Catalog1.within(target, SEPARATION)
-        ).order_by(
-            Catalog1.id
-        ).all()
+        return (
+            session.query(Catalog1.id)
+            .filter(Catalog1.within(target, SEPARATION))
+            .order_by(Catalog1.id)
+            .all()
+        )
 
     result = benchmark(do_query)
     matches = np.asarray(result).ravel()
@@ -152,13 +147,12 @@ def test_cone_search_literal_lhs(benchmark, session, point_clouds):
     target = Point(ra=100.0, dec=20.0)
 
     def do_query():
-        return session.query(
-            Catalog1.id
-        ).filter(
-            Catalog1.within(target, SEPARATION)
-        ).order_by(
-            Catalog1.id
-        ).all()
+        return (
+            session.query(Catalog1.id)
+            .filter(Catalog1.within(target, SEPARATION))
+            .order_by(Catalog1.id)
+            .all()
+        )
 
     result = benchmark(do_query)
     matches = np.asarray(result).ravel()
@@ -177,13 +171,12 @@ def test_cone_search_literal_rhs(benchmark, session, point_clouds):
     target = Point(ra=100.0, dec=20.0)
 
     def do_query():
-        return session.query(
-            Catalog1.id
-        ).filter(
-            target.within(Catalog1, SEPARATION)
-        ).order_by(
-            Catalog1.id
-        ).all()
+        return (
+            session.query(Catalog1.id)
+            .filter(target.within(Catalog1, SEPARATION))
+            .order_by(Catalog1.id)
+            .all()
+        )
 
     result = benchmark(do_query)
     matches = np.asarray(result).ravel()
