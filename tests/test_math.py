@@ -4,7 +4,7 @@ import random
 import pytest
 from sqlalchemy.sql import select
 
-from .. import math as sql_math
+from conesearch_alchemy import math as sql_math
 
 
 @pytest.mark.parametrize("name", ["cos", "sin", "tan"])

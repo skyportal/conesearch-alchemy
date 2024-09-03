@@ -8,7 +8,7 @@ from astropy.utils.misc import NumpyRNGContext
 from sqlalchemy import Column, Integer
 from sqlalchemy.orm import aliased, declarative_base
 
-from .. import Point
+from conesearch_alchemy import Point
 
 Base = declarative_base()
 
