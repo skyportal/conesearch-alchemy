@@ -23,10 +23,10 @@ def _compile_trigd_postgresql(element, compiler, **kw):
 
 
 for name in ['cos', 'sin', 'tan']:
-    mod_dict[name] = type(name, (ReturnTypeFromArgs,), {})
+    mod_dict[name] = type(name, (ReturnTypeFromArgs,), {'inherit_cache': True})
     __all__.append(name)
     named = f'{name}d'
-    mod_dict[named] = type(named, (ReturnTypeFromArgs,), {})
+    mod_dict[named] = type(named, (ReturnTypeFromArgs,), {'inherit_cache': True})
     compiles(mod_dict[named])(_compile_trigd_default(mod_dict[name]))
     compiles(mod_dict[named], 'postgresql')(_compile_trigd_postgresql)
 

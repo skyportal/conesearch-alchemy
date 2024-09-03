@@ -13,16 +13,16 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.10"
 sqlalchemy = "*"
 
 [tool.poetry.group.dev.dependencies]
 astropy = "*"
 numpy = "*"
-psycopg2-binary = "*"
+psycopg = { version = "*", extras = ["binary"] }
 pytest = "*"
 pytest-benchmark = "*"
-pytest-postgresql = "*"
+pytest-postgresql = ">=4.0.0"
 scipy = "*"
 
 [build-system]
