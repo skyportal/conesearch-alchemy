@@ -1,7 +1,7 @@
 import pytest
 from sqlalchemy.ext.declarative import declared_attr
 
-from ..util import InheritTableArgs
+from conesearch_alchemy.util import InheritTableArgs
 
 
 @pytest.mark.parametrize(
