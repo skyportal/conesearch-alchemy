@@ -4,9 +4,8 @@ from astropy.coordinates import SkyCoord
 from astropy import units as u
 from astropy.utils.misc import NumpyRNGContext
 import numpy as np
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer
-from sqlalchemy.orm import aliased
+from sqlalchemy.orm import aliased, declarative_base
 import pytest
 
 from .. import Point
@@ -39,7 +38,7 @@ def match_sky(coords1, coords2, separation):
     for n in itertools.count(1):
         id2, sep, _ = coords1.match_to_catalog_sky(coords2, nthneighbor=n)
         new_results = np.column_stack((id1, id2))[sep <= separation]
-        results = np.row_stack((results, new_results))
+        results = np.vstack((results, new_results))
         if np.size(results) > 0:
             results = np.unique(results, axis=0)
         new_nresults = np.size(results)
@@ -125,7 +124,7 @@ def test_self_join(benchmark, session, point_clouds):
 
 def test_cone_search(benchmark, session, point_clouds):
     (ras, _), (decs, _) = point_clouds
-    target = session.query(Catalog1).get(0)
+    target = session.get(Catalog1, 0)
 
     def do_query():
         return session.query(
