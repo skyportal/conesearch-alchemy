@@ -1,3 +1,7 @@
+[![PyPI Status](https://img.shields.io/pypi/v/conesearch-alchemy)](https://pypi.org/project/conesearch-alchemy/)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/skyportal/conesearch-alchemy/build-and-test.yml?branch=main)](https://github.com/skyportal/conesearch-alchemy/actions)
+[![codecov](https://codecov.io/gh/skyportal/conesearch-alchemy/branch/main/graph/badge.svg?token=XQ7BS7I216)](https://codecov.io/gh/skyportal/conesearch-alchemy)
+
 # Cone Search Alchemy
 
 The `conesearch_alchemy` Python package enhances [SQLAlchemy] to provide fast,
