@@ -1,14 +1,15 @@
 """Spatial indexing for astronomical point coordinates."""
+
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
 from sqlalchemy.schema import Column, Index
 from sqlalchemy.sql import and_
 from sqlalchemy.types import Float
 
-from .math import sind, cosd
+from .math import cosd, sind
 from .util import InheritTableArgs
 
-__all__ = ('Point',)
+__all__ = ("Point",)
 
 
 class Point(InheritTableArgs):
@@ -32,9 +33,11 @@ class Point(InheritTableArgs):
             A tuple of the x, y, and z coordinates.
 
         """
-        return (cosd(self.ra) * cosd(self.dec),
-                sind(self.ra) * cosd(self.dec),
-                sind(self.dec))
+        return (
+            cosd(self.ra) * cosd(self.dec),
+            sind(self.ra) * cosd(self.dec),
+            sind(self.dec),
+        )
 
     @hybrid_method
     def within(self, other, radius):
@@ -57,13 +60,15 @@ class Point(InheritTableArgs):
         carts = (obj.cartesian for obj in (self, other))
         # Evaluate boolean expressions for bounding box test
         # and dot product
-        terms = ((lhs.between(rhs - 2 * sin_radius, rhs + 2 * sin_radius),
-                  lhs * rhs) for lhs, rhs in zip(*carts))
+        terms = (
+            (lhs.between(rhs - 2 * sin_radius, rhs + 2 * sin_radius), lhs * rhs)
+            for lhs, rhs in zip(*carts)
+        )
         bounding_box_terms, dot_product_terms = zip(*terms)
         return and_(*bounding_box_terms, sum(dot_product_terms) >= cos_radius)
 
     @declared_attr
     def __table_args__(cls):
         *args, kwargs = super().__table_args__
-        index = Index(f'ix_{cls.__tablename__}_point', *cls.cartesian)
+        index = Index(f"ix_{cls.__tablename__}_point", *cls.cartesian)
         return (*args, index, kwargs)
