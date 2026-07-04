@@ -70,5 +70,8 @@ class Point(InheritTableArgs):
     @declared_attr
     def __table_args__(cls):
         *args, kwargs = super().__table_args__
-        index = Index(f"ix_{cls.__tablename__}_point", *cls.cartesian)
-        return (*args, index, kwargs)
+        # Models that never cone-search this table can set `index_point = False`
+        # to skip the (potentially large) spatial index.
+        if getattr(cls, "index_point", True):
+            args = (*args, Index(f"ix_{cls.__tablename__}_point", *cls.cartesian))
+        return (*args, kwargs)
