@@ -25,13 +25,14 @@ Base = declarative_base()
 
 # Create two tables Catalog1 and Catalog2 that both have spherical coordinates.
 
+
 class Catalog1(Point, Base):
-    __tablename__ = 'catalog1'
+    __tablename__ = "catalog1"
     id = Column(Integer, primary_key=True)
 
 
 class Catalog2(Point, Base):
-    __tablename__ = 'catalog2'
+    __tablename__ = "catalog2"
     id = Column(Integer, primary_key=True)
 
 
@@ -47,13 +48,10 @@ session.commit()
 
 # Cross-match the two tables.
 separation = 1  # separation in degrees
-query = session.query(
-    Catalog1.id, Catalog2.id
-).join(
-    Catalog2,
-    Catalog1.within(point, separation)
-).order_by(
-    Catalog1.id, Catalog2.id
+query = (
+    session.query(Catalog1.id, Catalog2.id)
+    .join(Catalog2, Catalog1.within(point, separation))
+    .order_by(Catalog1.id, Catalog2.id)
 )
 for row in query:
     ...  # do something with the query results
@@ -62,12 +60,10 @@ for row in query:
 # Do a cone search around literal ra, dec values.
 separation = 1  # separation in degrees
 point = Point(ra=212.5, dec=-33.2)
-query = session.query(
-    Catalog1.id
-).filter(
-    Catalog1.within(point, separation)
-).order_by(
-    Catalog1.id
+query = (
+    session.query(Catalog1.id)
+    .filter(Catalog1.within(point, separation))
+    .order_by(Catalog1.id)
 )
 for row in query:
     ...  # do something with the query results
