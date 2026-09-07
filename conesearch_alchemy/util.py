@@ -40,7 +40,7 @@ class InheritTableArgs:
         if isinstance(table_args, typing.Mapping):
             return (table_args,)
         elif not isinstance(table_args, typing.Sequence):
-            raise ValueError("table_args must be a mapping or sequence")
+            raise TypeError("table_args must be a mapping or sequence")
         elif not table_args or not isinstance(table_args[-1], typing.Mapping):
             return (*table_args, {})
         else:
