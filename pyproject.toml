@@ -15,7 +15,6 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.10"
 sqlalchemy = "*"
-pytest-cov = "^5.0.0"
 
 [tool.poetry.group.dev.dependencies]
 astropy = "*"
@@ -23,6 +22,7 @@ numpy = "*"
 psycopg = { version = "*", extras = ["binary"] }
 pytest = "*"
 pytest-benchmark = "*"
+pytest-cov = "^5.0.0"
 pytest-postgresql = ">=4.0.0"
 scipy = "*"
 
