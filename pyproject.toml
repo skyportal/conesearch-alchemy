@@ -1,31 +1,37 @@
-[tool.poetry]
+[build-system]
+requires = ["setuptools>=77", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
 name = "conesearch-alchemy"
-version = "1.1.0"
 description = "SQLAlchemy extension for indexed cone searches in astronomical catalogs"
 readme = "README.md"
-authors = ["Leo Singer <leo.singer@ligo.org>"]
+authors = [ { name = "Leo Singer", email = "leo.p.singer@nasa.gov" } ]
 license = "BSD-3-clause"
-repository = "https://github.com/skyportal/conesearch-alchemy"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Topic :: Database",
     "Topic :: Scientific/Engineering :: Astronomy"
 ]
+dependencies = [
+    "sqlalchemy",
+]
+requires-python = ">=3.10"
+dynamic = ["version"]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-sqlalchemy = "*"
+[project.urls]
+source = "https://github.com/skyportal/conesearch-alchemy"
 
-[tool.poetry.group.dev.dependencies]
-astropy = "*"
-numpy = "*"
-psycopg = { version = "*", extras = ["binary"] }
-pytest = "*"
-pytest-benchmark = "*"
-pytest-cov = "^5.0.0"
-pytest-postgresql = ">=4.0.0"
-scipy = "*"
+[dependency-groups]
+test = [
+    "astropy",
+    "numpy",
+    "psycopg[binary]",
+    "pytest",
+    "pytest-benchmark",
+    "pytest-cov>=5.0.0",
+    "pytest-postgresql>=4.0.0",
+    "scipy",
+]
 
-[build-system]
-requires = ["poetry-core>=1.2.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.setuptools_scm]
