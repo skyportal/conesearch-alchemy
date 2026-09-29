@@ -1,4 +1,4 @@
-import typing
+from collections.abc import Mapping, Sequence
 
 from sqlalchemy.ext.declarative import declared_attr
 
@@ -37,11 +37,11 @@ class InheritTableArgs:
         except AttributeError:
             table_args = ()
 
-        if isinstance(table_args, typing.Mapping):
+        if isinstance(table_args, Mapping):
             return (table_args,)
-        elif not isinstance(table_args, typing.Sequence):
+        elif not isinstance(table_args, Sequence):
             raise TypeError("table_args must be a mapping or sequence")
-        elif not table_args or not isinstance(table_args[-1], typing.Mapping):
+        elif not table_args or not isinstance(table_args[-1], Mapping):
             return (*table_args, {})
         else:
             return table_args
